@@ -15,13 +15,13 @@ macro_rules! create_table {
   ($t:expr, $( $k_t:expr ),+) => {
     let mut tmp: Vec<String> = Vec::new();
     $(tmp.push(format!("{} {}", $k_t.0, $k_t.1));)*
-    run_query(format!("CREATE TABLE {} ({});", $t ,tmp.join(",")), true);
+    crate::run_query(format!("CREATE TABLE {} ({});", $t ,tmp.join(",")), true);
   };
 }
 
 #[macro_export]
 macro_rules! drop_table {
   ($t:expr) => {
-    run_query(format!("DROP TABLE {} ;", $t), true);
+    crate::run_query(format!("DROP TABLE {} ;", $t), true);
   };
 }
