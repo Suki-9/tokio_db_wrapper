@@ -1,6 +1,4 @@
 mod client;
-mod table;
-
 use futures::executor::block_on;
 use client::DB_CLIENNT;
 
