@@ -2,7 +2,7 @@ mod client;
 use futures::executor::block_on;
 use client::DB_CLIENNT;
 
-pub(crate) fn run_query(query: &str, panic: bool) {
+pub fn run_query(query: &str, panic: bool) {
   println!("[DB Service] Run query\n  ->{query:}");
   match block_on((&DB_CLIENNT).batch_execute(&query)) {
     Ok(_) => {},
