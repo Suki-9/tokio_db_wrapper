@@ -2,7 +2,7 @@ mod client;
 
 pub fn run_query(query: &str, panic: bool) {
   println!("[DB Service] Run query\n  ->{query:}");
-  match futures::executor::block_on((&client::DB_CLIENNT).batch_execute(&query)) {
+  match futures::executor::block_on((&client::DB_CLIENNT).batch_execute(query)) {
     Ok(_) => {},
     Err(e) => if panic { panic!("{e:}") } else { print!("{e:}") },
   }
