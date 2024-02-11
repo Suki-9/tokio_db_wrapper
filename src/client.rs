@@ -1,30 +1,25 @@
-use futures::executor::block_on;
 use once_cell::sync::Lazy;
 use tokio_postgres::{
   Client,
   NoTls,
 };
-use serde_derive::{
-  Serialize,
-  Deserialize,
-};
 
 #[allow(non_snake_case)]
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct Config {
-  pub HOST: String,
-  pub PORT: String,
-  pub USER: String,
-  pub PASSWORD: String,
-  pub NAME: String,
+  pub DB_HOST: String,
+  pub DB_PORT: String,
+  pub DB_USER: String,
+  pub DB_PASSWORD: String,
+  pub DB_NAME: String,
 }
 
-pub(crate) static DB_CLIENNT: Lazy<Client> = Lazy::new(|| {
+pub(crate) static DB_CLIENNT: Lazy<Client> = once_cell::sync::Lazy::new(|| {
   let config: Config = match serde_yaml::from_str(&std::fs::read_to_string("./default.yaml").unwrap()) {
     Ok(c) => c,
     Err(e) => panic!("config file open faild. {e:}"),
   };
-  block_on(init_crient(&config.HOST, &config.PORT, &config.USER, &config.PASSWORD, &config.NAME))
+  futures::executor::block_on(init_crient(&config.DB_HOST, &config.DB_PORT, &config.DB_USER, &config.DB_PASSWORD, &config.DB_NAME))
 });
 
 async fn init_crient(host: &str, port: &str, user: &str, password: &str, db_name: &str) -> Client {
