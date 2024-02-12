@@ -31,7 +31,7 @@ macro_rules! create_table {
         _ => panic!("[DB Service] Type Error!!"),
       }
     ));)*
-    println!("CREATE TABLE {} ({});", $t ,tmp.join(","));
+    println!("CREATE TABLE IF NOT EXISTS {} ({});", $t ,tmp.join(","));
     $crate::run_query(&format!("CREATE TABLE {} ({});", $t ,tmp.join(",")), true);
   };
 
@@ -48,7 +48,7 @@ macro_rules! create_table {
         _ => panic!("[DB Service] Type Error!!")},
       $op
     ));)*
-    println!("CREATE TABLE {} ({});", $t ,tmp.join(","));
+    println!("CREATE TABLE IF NOT EXISTS {} ({});", $t ,tmp.join(","));
     $crate::run_query(&format!("CREATE TABLE {} ({});", $t ,tmp.join(",")), true);
   };
 }
